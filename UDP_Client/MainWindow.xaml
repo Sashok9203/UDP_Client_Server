@@ -1,0 +1,59 @@
+﻿<Window x:Class="UDP_Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UDP_Client"
+        xmlns:vms="clr-namespace:UDP_Client.Models"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=vms:WindowModel}"
+        Title="MainWindow" Height="450" Width="520" MaxWidth="520" Background="{StaticResource background }">
+
+    <Window.DataContext>
+        <vms:WindowModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <TextBlock Text="IP" FontSize="17" FontWeight="DemiBold" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Address,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" Width="250" Height="30" VerticalContentAlignment="Center" FontSize="16" FontWeight="DemiBold"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                <TextBlock Text="Port:" FontSize="17" FontWeight="DemiBold" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                <TextBox Text="{Binding Port,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" Width="150" Height="30" VerticalContentAlignment="Center" FontSize="16" FontWeight="DemiBold"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10,0,0,0">
+            <TextBox x:Name="message" Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Width="320" Height="60" VerticalContentAlignment="Top" FontSize="16" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+            <Button Command="{Binding Send}" CommandParameter="{Binding ElementName=message,Path=Text}" Margin="10,0,0,0" Content="Send" Height="60" Width="150"/>
+        </StackPanel>
+        <TextBlock  Grid.Row="2" Text="Dialog:" FontSize="17" FontWeight="DemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <ListView Margin="10"  Grid.Row="3" ItemsSource="{Binding DialogMessages}" HorizontalContentAlignment="Stretch" Background="{StaticResource background}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="5"  CornerRadius="8" HorizontalAlignment="{Binding HAlignment}">
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="{Binding Color}" Offset="0.056"/>
+                                <GradientStop Color="#FF537EE6" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" Foreground="White"/>
+                            <TextBlock Margin="5" Text="{Binding Message}" HorizontalAlignment="Center" FontSize="14" />
+                            <TextBlock Text="{Binding Time}" HorizontalAlignment="Right" Foreground="White"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</Window>
